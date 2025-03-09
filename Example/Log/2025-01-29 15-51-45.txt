@@ -1,0 +1,35 @@
+----------------------------------------------------------------------------------------------------
+.__   __.  __    __   __    __   __   __          __       __    __    ______     ___           _______.
+|  \ |  | |  |  |  | |  |  |  | |  | |  |        |  |     |  |  |  |  /      |   /   \         /       |
+|   \|  | |  |  |  | |  |__|  | |  | |  |        |  |     |  |  |  | |  ,----'  /  ^  \       |   (----`
+|  . `  | |  |  |  | |   __   | |  | |  |        |  |     |  |  |  | |  |      /  /_\  \       \   \    
+|  |\   | |  `--'  | |  |  |  | |  | |  `----.   |  `----.|  `--'  | |  `----./  _____  \  .----)   |   
+|__| \__|  \______/  |__|  |__| |__| |_______|   |_______| \______/   \______/__/     \__\ |_______/    
+                                                                                                        
+----------------------------------------------------------------------------------------------------
+Log File Created At 2025-01-29 15-51-45
+
+
+
+
+2025-01-29 15-51-45 |-| [Level: <Test> | Module: <__main__>]: Just For Test...
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
+2025-01-29 15-51-45 |-| [Level: <Normal> | Module: <__main__>]:
+	Invalid Information.
