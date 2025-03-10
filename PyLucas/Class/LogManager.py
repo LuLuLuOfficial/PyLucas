@@ -1,3 +1,9 @@
+from os.path import exists
+from os import mkdir
+from pathlib import Path as _Path
+from inspect import stack
+from PyLucas.Func.Function import Author_Lucas, GetTimeStamp
+
 class LogManager():
     def __init__(self, OutPutPath_Root) -> None:
         self.TimeStamp: str = ''
@@ -10,7 +16,6 @@ class LogManager():
         self.Initialize()
 
     def Initialize(self):
-        from os.path import exists; from os import mkdir; from PyLucas.Function.Function import Author_Lucas, GetTimeStamp
         if not exists(self.OutPutPath_Root): mkdir(self.OutPutPath_Root)
 
         self.TimeStamp = GetTimeStamp()
@@ -32,7 +37,6 @@ class LogManager():
         else: self.MassageLineBreak = False
 
     def CheckLogLimit(self):
-        from pathlib import Path as _Path
         Path = _Path(self.OutPutPath_Root)
         Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.txt']
         if not Files:
@@ -44,8 +48,6 @@ class LogManager():
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.txt']
 
     def LogOutput(self, Module: str = None, Level: str = 'Normal', LogMassage: str = 'Invalid Information.', MassageLF: bool = False, DoPrint: bool = True):
-        from inspect import stack; from PyLucas.Function.Function import GetTimeStamp
-
         if not Module: Module = stack()[1][0].f_globals['__name__']
         TimeStamp = GetTimeStamp()
         Temp: str

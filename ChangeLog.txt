@@ -3,3 +3,5 @@ Version:
         修复 LogManager 的部分不良使用体验.
     1.1.0:
         新增功能 ConfigEditor.
+    1.1.1:
+        修复 PyLucas-1.1.0 无法调用任何功能的问题.

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyLucas"
+description = "Personal utility library for Nuhil Lucas."
+requires-python = ">=3.11.9"
+license = {file = "LICENSE"}
+
+dynamic = [
+    "version",
+    "readme"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pyfiglet",
+    "tomli_w",
+]
+
+[[project.authors]]
+name="Nuhil Lucas"
+email="XFramilRainX@163.com"
+
+
+[[project.maintainers]]
+name="Nuhil Lucas"
+email="XFramilRainX@163.com"
+
+[project.urls]
+"Homepage" = "https://github.com/LuLuLuOfficial/PyLucas"
+"Bug Tracker" = "https://github.com/LuLuLuOfficial/PyLucas/issues"
+
+
+[tool.setuptools_scm]
+
+[tool.setuptools.dynamic]
+version = {attr = "PyLucas.__MetaData__.__version__"}
+readme = {file = ["README.md"]}
