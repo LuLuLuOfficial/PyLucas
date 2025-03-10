@@ -7,7 +7,7 @@ with open("Requirements.txt", encoding="utf-8") as fp:
 
 setup(
     name="PyLucas",
-    version="1.0.1",
+    version="1.1.0",
     description="Personal utility library for Nuhil Lucas.",
     long_description="Personal utility library for Nuhil Lucas.",
     author="Nuhil Lucas",
