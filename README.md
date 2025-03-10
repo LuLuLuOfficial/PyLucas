@@ -2,12 +2,12 @@
 
 Its a Python Func Lib from Nuhil Lucas.
 
-##### **Command:**
+##### Command:
 
-###### ** Pack Up:**
+###### Pack Up:
 
-python setup.py sdist
+- python setup.py sdist
 
-###### ** Pip Install:**
+###### Pip Install:
 
-pip install ...\PyLucas-X.X.X.tar.gz
+- pip install ...\PyLucas-X.X.X.tar.gz
