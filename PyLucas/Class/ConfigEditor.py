@@ -27,6 +27,7 @@ class ConfigEditor():
 
     def OverWrite_Data_Toml(self, Data_Toml: dict):
         self.__Data_Toml = Data_Toml.copy()
+        self.Save_Toml()
 
     @property
     def Get_Data_Toml(self):

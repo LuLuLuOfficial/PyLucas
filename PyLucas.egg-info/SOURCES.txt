@@ -34,6 +34,7 @@ dist/PyLucas-1.1.1.tar.gz
 dist/PyLucas-1.2.0.tar.gz
 dist/PyLucas-1.2.1.tar.gz
 dist/PyLucas-1.2.2.tar.gz
+dist/PyLucas-1.2.3.tar.gz
 tests/Test.py
 tests/Test_ConfigEditor.py
 tests/Test_Function.py
