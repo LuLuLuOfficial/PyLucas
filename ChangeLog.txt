@@ -5,3 +5,9 @@ Version:
         新增功能 ConfigEditor.
     1.1.1:
         修复 PyLucas-1.1.0 结构与无法正常打包等问题.
+    1.2.0:
+        将 ConfigEditor 中的方法 Read_Toml 更名为 Load_Toml
+    1.2.1:
+        修复了 ConfigEditor 的方法 Initialize 中 Read_Toml 未变更为 Load_Toml 的问题
+    1.2.2:
+        为 ConfigEditor 增加了方法 Add_Value
