@@ -26,12 +26,14 @@ class ConfigEditor():
             File_Toml.close()
 
     def OverWrite_Data_Toml(self, Data_Toml: dict):
-        self.__Data_Toml = Data_Toml.copy()
+        from copy import deepcopy
+        self.__Data_Toml = deepcopy(Data_Toml)
         self.Save_Toml()
 
     @property
     def Get_Data_Toml(self):
-        return self.__Data_Toml.copy()
+        from copy import deepcopy
+        return deepcopy(self.__Data_Toml)
 
     def Get_Keys(self, Key_Locate: str = ''):
         Key_Locate: list = Key_Locate.split('.')
@@ -53,7 +55,8 @@ class ConfigEditor():
         return Temp_Data
 
     def Set_Data_Basic(self, Data_Basic: dict):
-        self.__Data_Toml = Data_Basic.copy()
+        from copy import deepcopy
+        self.__Data_Toml = deepcopy(Data_Basic)
         self.Save_Toml()
 
     def Set_Value(self, Key_Locate: str, Value: any):
