@@ -11,3 +11,5 @@ Version:
         修复了 ConfigEditor 的方法 Initialize 中 Read_Toml 未变更为 Load_Toml 的问题
     1.2.2:
         为 ConfigEditor 增加了方法 Add_Value
+    1.2.3:
+        为 ConfigEditor 增加了方法 OverWrite_Data_Toml

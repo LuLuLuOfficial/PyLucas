@@ -25,6 +25,9 @@ class ConfigEditor():
             tomli_w.dump(self.__Data_Toml, File_Toml)
             File_Toml.close()
 
+    def OverWrite_Data_Toml(self, Data_Toml: dict):
+        self.__Data_Toml = Data_Toml.copy()
+
     @property
     def Get_Data_Toml(self):
         return self.__Data_Toml.copy()
