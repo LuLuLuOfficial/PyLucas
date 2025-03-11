@@ -13,3 +13,5 @@ Version:
         为 ConfigEditor 增加了方法 Add_Value
     1.2.3:
         为 ConfigEditor 增加了方法 OverWrite_Data_Toml
+    1.2.4
+        修改了 LogManager 中 LogOutput 方法的实现

@@ -47,14 +47,21 @@ class LogManager():
             OldestFile.unlink()
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.txt']
 
-    def LogOutput(self, Module: str = None, Level: str = 'Normal', LogMassage: str = 'Invalid Information.', MassageLF: bool = False, DoPrint: bool = True):
+    def LogOutput(self, Module: str = None, Level: str = 'Normal', LogMassage: str = 'Invalid Information', DoPrint: bool = True):
+        '''
+        Module: str = 'By Auto'
+        Level: str = 'Error' | 'Warn' | 'Normal'
+        LogMassage: str = 'Invalid Information.'
+        DoPrint: bool = True | False
+        '''
         if not Module: Module = stack()[1][0].f_globals['__name__']
         TimeStamp = GetTimeStamp()
-        Temp: str
-        if self.MassageLineBreak: Temp = '\n\t'
-        else: Temp = ' '
+        Indent: str = ''
+        if self.MassageLineBreak: Indent = '\n\t'
+        else: Indent = ' '
+        if LogMassage[-1] in ('.', '。',): LogMassage = LogMassage[:-1]
 
-        LogText: str = f'{TimeStamp} |-| [Level: <{Level}> | Module: <{Module}>]:{Temp}{LogMassage}'
+        LogText: str = f'{TimeStamp} |-| [Level: <{Level}> | Module: <{Module}>]:{Indent}{LogMassage}.'
         
         if DoPrint:
             print(LogText)
