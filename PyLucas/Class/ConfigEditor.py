@@ -25,11 +25,6 @@ class ConfigEditor():
             tomli_w.dump(self.__Data_Toml, File_Toml)
             File_Toml.close()
 
-    def OverWrite_Data_Toml(self, Data_Toml: dict):
-        from copy import deepcopy
-        self.__Data_Toml = deepcopy(Data_Toml)
-        self.Save_Toml()
-
     @property
     def Get_Data_Toml(self):
         from copy import deepcopy
@@ -73,7 +68,12 @@ class ConfigEditor():
                 raise TypeError(f'Temp_Data: {type(Temp_Data)} = {Temp_Data}')
         Temp_Data.update({Key_Locate[-1]: Value})
         self.Save_Toml()
-    
+
+    def OverWrite_Data_Toml(self, Data_Toml: dict):
+        from copy import deepcopy
+        self.__Data_Toml = deepcopy(Data_Toml)
+        self.Save_Toml()
+
     def Add_Value(self, Key_Locate: str, Value: dict):
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
