@@ -31,6 +31,7 @@ PyLucas/__pycache__/__MetaData__.cpython-311.pyc
 PyLucas/__pycache__/__init__.cpython-311.pyc
 PyLucas/__pycache__/__init__.cpython-312.pyc
 dist/PyLucas-1.1.1.tar.gz
+dist/PyLucas-1.2.0.tar.gz
 tests/Test.py
 tests/Test_ConfigEditor.py
 tests/Test_Function.py
