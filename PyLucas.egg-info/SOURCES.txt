@@ -19,3 +19,21 @@ PyLucas/Class/ConfigEditor.py
 PyLucas/Class/LogManager.py
 PyLucas/Func/Function.py
 PyLucas/Func/__init__.py
+PyLucas/Func/__pycache__/Function.cpython-311.pyc
+PyLucas/Func/__pycache__/Function.cpython-312.pyc
+PyLucas/Func/__pycache__/__init__.cpython-311.pyc
+PyLucas/Func/__pycache__/__init__.cpython-312.pyc
+PyLucas/__pycache__/Class_ConfigEditor.cpython-311.pyc
+PyLucas/__pycache__/Class_ConfigEditor.cpython-312.pyc
+PyLucas/__pycache__/Class_LogManager.cpython-311.pyc
+PyLucas/__pycache__/Class_LogManager.cpython-312.pyc
+PyLucas/__pycache__/__MetaData__.cpython-311.pyc
+PyLucas/__pycache__/__init__.cpython-311.pyc
+PyLucas/__pycache__/__init__.cpython-312.pyc
+dist/PyLucas-1.1.1.tar.gz
+tests/Test.py
+tests/Test_ConfigEditor.py
+tests/Test_Function.py
+tests/Test_LogManager.py
+tests/Log/2025-01-28 10-05-25.txt
+tests/Log/2025-01-28 10-05-44.txt

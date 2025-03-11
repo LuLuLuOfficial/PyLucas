@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyLucas
-Version: 1.1.1
+Version: 1.2.0
 Summary: Personal utility library for Nuhil Lucas.
 Author-email: Nuhil Lucas <XFramilRainX@163.com>
 Maintainer-email: Nuhil Lucas <XFramilRainX@163.com>
@@ -33,12 +33,16 @@ Requires-Python: >=3.11.9
 Description-Content-Type: text/x-rst
 License-File: LICENSE
 
-ReadMe
+# Welcome To PyLucas
+
 Its a Python Func Lib from Nuhil Lucas.
 
-Build
-Command:
-Pack Up:
-python setup.py sdist
-Pip Install:
-pip install E:\Warehouse\Project\Program_LucasLib\PyLucas\dist\PyLucas-X.X.X.tar.gz
+#### Command:
+
+###### Pack Up:
+
+- python setup.py sdist
+
+###### Pip Install:
+
+- pip install ...\PyLucas-X.X.X.tar.gz

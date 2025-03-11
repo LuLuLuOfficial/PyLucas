@@ -15,7 +15,7 @@ class ConfigEditor():
             case False:
                 self.Save_Toml()
 
-    def Read_Toml(self):
+    def Load_Toml(self):
         with open(file=self.__Path_Toml, mode='rb') as File_Toml:
             self.__Data_Toml = tomllib.load(File_Toml)
             File_Toml.close()
