@@ -30,3 +30,5 @@ Version:
     2.2.3
         修复了 ConfigEditor 中 Set_Data_Basic 方法无判断的覆盖原字典的错误
         将  中的 OverWrite_Data_Toml 方法更名为 OverWrite_Data
+    3.0.0
+        修正拼写错误 Massage -> Message
