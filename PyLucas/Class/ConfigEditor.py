@@ -49,13 +49,6 @@ class ConfigEditor():
             Temp_Data = Temp_Data[Temp_Key]
         return Temp_Data
 
-    def Set_Data_Basic(self, Data_Basic: dict):
-        from copy import deepcopy
-        if self.__Data_Toml:
-            return
-        self.__Data_Toml = deepcopy(Data_Basic)
-        self.Save_Toml()
-
     def Set_Value(self, Key_Locate: str, Value: any):
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
@@ -69,6 +62,16 @@ class ConfigEditor():
             else:
                 raise TypeError(f'Temp_Data: {type(Temp_Data)} = {Temp_Data}')
         Temp_Data.update({Key_Locate[-1]: Value})
+        self.Save_Toml()
+
+    def Set_Data_Basic(self, Data_Toml: dict):
+        '''
+        仅在 self.__Data_Toml 为空或任何 bool(self.__Data_Toml)!=True 情况下有效
+        '''
+        from copy import deepcopy
+        if self.__Data_Toml:
+            return
+        self.__Data_Toml = deepcopy(Data_Toml)
         self.Save_Toml()
 
     def OverWrite_Data(self, Data_Toml: dict):
