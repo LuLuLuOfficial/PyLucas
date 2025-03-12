@@ -51,6 +51,8 @@ class ConfigEditor():
 
     def Set_Data_Basic(self, Data_Basic: dict):
         from copy import deepcopy
+        if self.__Data_Toml:
+            return
         self.__Data_Toml = deepcopy(Data_Basic)
         self.Save_Toml()
 
@@ -69,7 +71,7 @@ class ConfigEditor():
         Temp_Data.update({Key_Locate[-1]: Value})
         self.Save_Toml()
 
-    def OverWrite_Data_Toml(self, Data_Toml: dict):
+    def OverWrite_Data(self, Data_Toml: dict):
         from copy import deepcopy
         self.__Data_Toml = deepcopy(Data_Toml)
         self.Save_Toml()
