@@ -34,4 +34,4 @@ Version:
         修正拼写错误 Massage -> Message
     3.1.0
         在 Function 中添加函数 Get_CurrentFrame_Info 以作示范
-        为 ConfigEditor 中 Set_Value() 方法添加注释以规避 浅拷贝(= or .copy()) 导致的问题
+        为 ConfigEditor 中 Get_Value(), Set_Value() 方法添加注释以求用户显式的规避 浅拷贝(= or .copy()) 导致的问题
