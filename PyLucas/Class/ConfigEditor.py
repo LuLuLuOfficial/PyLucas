@@ -50,6 +50,12 @@ class ConfigEditor():
         return Temp_Data
 
     def Set_Value(self, Key_Locate: str, Value: any):
+        '''
+        It should be noted that when using Set_Value(), the modification of the Value accepted by Set_Value() will still affect the variables that are set_Value().
+        需要注意的是, 在使用 Set_Value() 时, 对 Set_Value() 所接受的的 Value 的修改仍然会影响被Set_Value()的变量.
+        Therefore, if you need to undo the reference relationship between Value and Data_Tomml, you need to perform deepcopy() operation on the variable represented by Value.
+        所以, 如果需要解除 Value 与 Data_Toml 之间的引用关系, 需要对 Value 所代表的变量进行 deepcopy() 操作.
+        '''
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
         for Temp_Key in Key_Locate[:-1]:

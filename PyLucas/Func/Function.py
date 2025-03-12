@@ -14,3 +14,21 @@ def GetTimeStamp(Split: str = '-'):
     Time_Local: str = localtime()
     Time_Formatted: str = strftime(f'%Y{Split}%m{Split}%d %H{Split}%M{Split}%S', Time_Local)
     return Time_Formatted
+
+def Get_CurrentFrame_Info() -> tuple[str]:  # 获取当前帧信息
+    '''
+    return (Path_File, Name_Func, FuncLine_Def, FuncLine_Current)
+    返回 (文件路径, 函数名, 函数定义的起始行号, 当前执行的行号)
+    '''
+    from inspect import currentframe
+    # 获取当前栈帧
+    CurrentFrame = currentframe()
+    # 文件名
+    Path_File: str = CurrentFrame.f_code.co_filename
+    # 函数名
+    Name_Func: str = CurrentFrame.f_code.co_name
+    # 函数定义的起始行号
+    FuncLine_Def: int = CurrentFrame.f_code.co_firstlineno
+    # 当前执行的行号 - 即调用currentframe()的行
+    FuncLine_Current: int = CurrentFrame.f_lineno
+    return (Path_File, Name_Func, FuncLine_Def, FuncLine_Current)
