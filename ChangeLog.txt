@@ -1,19 +1,29 @@
+LogRules:
+    1. Bug 修复(可以向下兼容):
+        X.X.[X+1]
+    2. API 增加(可以向下兼容):
+        X.[X+1].0
+    3. API 删改(无法向下兼容):
+        [X+1].0.0
+
 Version:
+    1.0.0:
+        初版.
     1.0.1:
         修复 LogManager 的部分不良使用体验.
     1.1.0:
         新增功能 ConfigEditor.
     1.1.1:
         修复 PyLucas-1.1.0 结构与无法正常打包等问题.
-    1.2.0:
+    2.0.0:
         将 ConfigEditor 中的方法 Read_Toml 更名为 Load_Toml
-    1.2.1:
+    2.0.1:
         修复了 ConfigEditor 的方法 Initialize 中 Read_Toml 未变更为 Load_Toml 的问题
-    1.2.2:
+    2.1.0:
         为 ConfigEditor 增加了方法 Add_Value
-    1.2.3:
+    2.2.0:
         为 ConfigEditor 增加了方法 OverWrite_Data_Toml
-    1.2.4
+    2.2.1
         修改了 LogManager 中 LogOutput 方法的实现
-    1.2.5
+    2.2.2
         修复了在 ConfigEditor 仅使用浅拷贝 (dict.copy()) 导致的引用无法去除的问题 方法为将 dict.copy() 更改为使用 copy.deepcopy(dict)
