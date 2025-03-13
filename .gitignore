@@ -1,14 +1,9 @@
-# 忽略 虚拟环境 目录
 .venv/
-
-# 忽略 setuptools打包后分发文件 目录
-# dist/
-
-# 忽略 setuptools生成的包元数据 目录
+.VSCodeCounter/
+dist/
 *.egg-info/
 
-# 忽略 __pycache__目录
 __pycache__/
 
-# 忽略 测试文件 目录
-tests/
+
+

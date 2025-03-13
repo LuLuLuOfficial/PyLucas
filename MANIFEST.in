@@ -1,0 +1,17 @@
+prune .venv/
+prune .vscode
+prune .VSCodeCounter/
+prune dist/
+
+exclude .gitignore
+exclude ChangeLog.txt
+exclude MANIFEST.in
+exclude requirements.txt
+
+
+prune PyLucas.egg-info
+prune PyLucas.egg-info/*
+prune *.egg-info/*
+
+exclude setup.cfg
+exclude setup.py
