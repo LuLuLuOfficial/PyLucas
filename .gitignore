@@ -1,9 +1,11 @@
 .venv/
 .VSCodeCounter/
+Backup
 dist/
 *.egg-info/
 
+.pypirc
+
 __pycache__/
 
-
-
+Test/
