@@ -1,0 +1,20 @@
+prune .venv/
+prune .vscode
+prune .VSCodeCounter/
+prune Backup/
+prune dist/
+graft PyLucas/
+graft PyLucas.egg-info/
+prune Test/
+
+prune **/__pycache__
+
+exclude .gitignore
+exclude .pypirc
+exclude ChangeLog.txt
+include LICENSE
+exclude MANIFEST.in
+exclude pyproject.toml
+exclude README.md
+exclude requirements.txt
+include setup.py
