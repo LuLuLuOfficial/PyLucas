@@ -1,6 +1,0 @@
-Version Number Follows Semantic Versioning 2.0.0
-    https://semver.mdn.cn/
-
-Version:
-    0.0.0:
-        整体架构重置.
