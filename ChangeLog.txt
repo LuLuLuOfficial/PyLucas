@@ -1,0 +1,10 @@
+Version Number Follows Semantic Versioning 2.0.0
+    https://semver.mdn.cn/
+
+Version:
+    0.0.0:
+        整体架构重置.
+    1.0.1:
+        跳过 1.0.0.
+        更改包管理器为Poetry.
+        重新打包上传.
