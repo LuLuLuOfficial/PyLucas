@@ -2,6 +2,7 @@
 .VSCodeCounter/
 Backup
 dist/
+tests/
 *.egg-info/
 
 .pypirc
