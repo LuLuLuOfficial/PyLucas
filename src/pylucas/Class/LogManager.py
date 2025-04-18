@@ -2,7 +2,8 @@ from os.path import exists
 from os import mkdir
 from pathlib import Path as _Path
 from inspect import stack
-from pylucas.Function.Function import Author_Lucas, GetTimeStamp
+from pylucas.Function.Function import ASCII_Art, GetTimeStamp
+AUTHOR: str = 'Nuhil Lucas'
 
 class LogManager():
     def __init__(self, OutPutPath_Root) -> None:
@@ -21,7 +22,7 @@ class LogManager():
         self.TimeStamp = GetTimeStamp()
         self.OutPutPath_File += rf'\{self.TimeStamp}.txt'
         with open(file=self.OutPutPath_File, mode='w', encoding='utf-8') as file:
-            FormatText, LineCount = Author_Lucas()
+            FormatText, LineCount = ASCII_Art(Text=AUTHOR)
             file.write(f'{FormatText}')
             file.write(f'Log File Created At {self.TimeStamp}'+'\n'*(10-(LineCount%10)))
             file.close()

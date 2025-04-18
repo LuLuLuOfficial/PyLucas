@@ -14,3 +14,4 @@ Version:
         修改 Function.Author_Lucas 的实现并标记为弃用.
         添加函数 Function.ASCII_Art.
         修改 Logmanager.Initialize 中关于 ASCII Art 生成部分的实现.
+        为 Function 内的函数添加标准化的注释.
