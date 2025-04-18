@@ -1,9 +1,23 @@
+from typing import Literal
+
 def Author_Lucas(Author: str = 'Nuhil Lucas'):
     '''
     Generate ASCII Art.
+    Mark As Deprecated.
     '''
-    from pyfiglet import figlet_format
-    Result = figlet_format(text=Author, font='starwars', direction='auto', justify='auto', width=10000)
+    from art import text2art
+    Text_Format: str = text2art(text=Author, font='starwars')
+    SplitLine: str = '-'*(Text_Format.find('\n')) + '\n'
+    Result: str = SplitLine + Text_Format + SplitLine
+    LineCount: int = Result.count('\n')
+    return Result, LineCount
+
+def ASCII_Art(Text: str, Font: Literal['univers', 'tarty8', 'tarty7', 'tarty1', 'block'] = 'univers'):
+    '''
+    Generate ASCII Art.
+    '''
+    from art import text2art
+    Result = text2art(text=Text, font='starwars')
     return Result
 
 def GetTimeStamp(Split: str = '-'):

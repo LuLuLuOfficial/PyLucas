@@ -8,3 +8,9 @@ Version:
         跳过 1.0.0.
         更改包管理器为Poetry.
         重新打包上传.
+    1.1.0:
+        修复 LogManager 中错误的导入 [from src.pulucas... -> from pulucas].
+        变更依赖 [pyfiglet -> art].
+        修改 Function.Author_Lucas 的实现并标记为弃用.
+        添加函数 Function.ASCII_Art.
+        修改 Logmanager.Initialize 中关于 ASCII Art 生成部分的实现.
