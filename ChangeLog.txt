@@ -15,3 +15,8 @@ Version:
         添加函数 Function.ASCII_Art.
         修改 Logmanager.Initialize 中关于 ASCII Art 生成部分的实现.
         为 Function 内的函数添加标准化的注释.
+    1.1.1:
+        掠过这个版本(错误上传后删除, 无法再次上传该版本号.).
+        但是仍然尝试上传一份.
+    1.1.2:
+        修复 Poetry 创建项目时忘记使用 poetry install 命令来进行基础配置导致的 src 无法缺省的bug.
