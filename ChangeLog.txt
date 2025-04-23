@@ -1,6 +1,9 @@
 Version Number Follows Semantic Versioning 2.0.0
     https://semver.mdn.cn/
 
+Attention:
+    注意: 因为之前的仓库整体架构和构建操作等等的问题, 导致现在 PyPi 上面 1.0.0 和 3.1.1 已经被删除了, 但是 PyPi 的规则限制即使是删除之后也不能上传同一版本号的包上去, 所以更新的时候要注意.
+
 Version:
     0.0.0:
         整体架构重置.
@@ -16,7 +19,9 @@ Version:
         修改 Logmanager.Initialize 中关于 ASCII Art 生成部分的实现.
         为 Function 内的函数添加标准化的注释.
     1.1.1:
-        掠过这个版本(错误上传后删除, 无法再次上传该版本号.).
-        但是仍然尝试上传一份.
+        这个版本上传之后出现无法 pip 到的问题, 遂改版本号为 1.1.2 重新上传一次.
     1.1.2:
         修复 Poetry 创建项目时忘记使用 poetry install 命令来进行基础配置导致的 src 无法缺省的bug.
+    1.1.3
+        为 LogManager 中 LogOutput 的参数 Level 添加候选.
+        修复关于 from pylucas.Function import ... 无法导入的问题(通过在Function文件夹内新建__init__.py).

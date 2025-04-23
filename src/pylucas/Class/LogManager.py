@@ -3,10 +3,11 @@ from os import mkdir
 from pathlib import Path as _Path
 from inspect import stack
 from pylucas.Function.Function import ASCII_Art, GetTimeStamp
+from typing import Literal
 AUTHOR: str = 'Nuhil Lucas'
 
 class LogManager():
-    def __init__(self, OutPutPath_Root) -> None:
+    def __init__(self, OutPutPath_Root: str) -> None:
         self.TimeStamp: str = ''
         self.OutPutPath_Root: str = OutPutPath_Root
         self.OutPutPath_File: str = OutPutPath_Root
@@ -47,7 +48,11 @@ class LogManager():
             OldestFile.unlink()
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.txt']
 
-    def LogOutput(self, Module: str = None, Level: str = 'Normal', LogMessage: str = 'Invalid Information', DoPrint: bool = True):
+    def LogOutput(self,
+                  Module: str = None,
+                  Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
+                  LogMessage: str = 'Invalid Information',
+                  DoPrint: bool = True):
         '''
         Module: str = 'By Auto'
         Level: str = 'Error' | 'Warn' | 'Normal'
