@@ -18,7 +18,7 @@ def Author_Lucas(Author: str = 'Nuhil Lucas') -> str:
     return ASCIIArt_Str, LineCount
 
 def ASCII_Art(Text: str,
-              Font: Literal['univers', 'tarty8', 'tarty7', 'tarty1', 'block'] = 'univers',
+              Font: Literal['univers', 'tarty8', 'tarty7', 'tarty1', 'block'] = 'starwars',
               AddSplit: bool = False) -> str:
     """
     Generate Ascii Art Characters
@@ -32,10 +32,11 @@ def ASCII_Art(Text: str,
         str: _description_. Ascii Art Characters
     """
     from art import text2art
-    ASCIIArt_Str: str = text2art(text=Text, font='starwars'); SplitLine: str = ''
+    ASCIIArt_Str: str = text2art(text=Text, font=Font); SplitLine: str = ''
     if AddSplit: SplitLine: str = '-'*(ASCIIArt_Str.find('\n')) + '\n'
     ASCIIArt_Str: str = SplitLine + ASCIIArt_Str + SplitLine
-    return ASCIIArt_Str
+    LineCount: int = ASCIIArt_Str.count('\n')
+    return ASCIIArt_Str, LineCount
 
 def GetTimeStamp(Split: str = '-') -> str:
     """

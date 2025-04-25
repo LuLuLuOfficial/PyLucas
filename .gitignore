@@ -2,6 +2,7 @@
 .VSCodeCounter/
 Backup
 dist/
+Log/*.txt
 tests/
 *.egg-info/
 

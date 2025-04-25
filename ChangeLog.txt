@@ -26,4 +26,9 @@ Version:
         为 LogManager 中 LogOutput 的参数 Level 添加候选.
         修复关于 from pylucas.Function import ... 无法导入的问题(通过在Function文件夹内新建__init__.py).
     1.1.4
-        
+        修复 Function 中 ASCII_Art 缺少返回值 -> LineCount 的问题.
+        修复 Function 中 ASCII_Art 默认字体被硬编码的问题.
+        修复 LogManager 中 Author 的 ASCII Art 无法自定义的问题.
+
+        为 LogManager 添加注释.
+        为 ConfigEditor 添加注释.

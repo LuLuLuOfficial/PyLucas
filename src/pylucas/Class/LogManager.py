@@ -26,11 +26,11 @@ class LogManager():
         self.OutPutPath_File += rf'\{self.TimeStamp}.txt'
         with open(file=self.OutPutPath_File, mode='w', encoding='utf-8') as file:
             if self.Author:
-                FormatText, LineCount = ASCII_Art(Text=self.Author)
+                FormatText, LineCount = ASCII_Art(Text=self.Author, AddSplit=True)
                 file.write(f'{FormatText}')
                 file.write(f'Log File Created At {self.TimeStamp}'+'\n'*(10-(LineCount%10)))
             else:
-                file.write(f'Log File Created At {self.TimeStamp}'+'\n'*9)
+                file.write(f'Log File Created At {self.TimeStamp}'+'\n'*10)
             file.close()
         self.CheckLogLimit()
     
