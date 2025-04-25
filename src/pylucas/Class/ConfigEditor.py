@@ -2,6 +2,8 @@ from __future__ import annotations
 import tomllib, tomli_w
 
 class ConfigEditor():
+    """ConfigEditor Only Support <TOML> For Now.
+    """
     def __init__(self, Path_Toml: str, Data_Toml: dict = {}):
         '''
         Path_Toml: str = 'Temporary' | 'Any Exists Path'
