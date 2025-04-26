@@ -29,6 +29,10 @@ Version:
         修复 Function 中 ASCII_Art 缺少返回值 -> LineCount 的问题.
         修复 Function 中 ASCII_Art 默认字体被硬编码的问题.
         修复 LogManager 中 Author 的 ASCII Art 无法自定义的问题.
+        修复 Path_Toml 中 Path_Toml 被硬编码为 '' 导致无法正常读取的问题.
+        修复 ConfigEditor 中 Get_Keys 接受一个存在的 Key_Locate 但是因 Key_Locate 最后一位的值非字典而导致的 KeyError 报错, 改为返回空元组.
+        修复 ConfigEditor 在 Temporary 状态下因为 __Path_Toml 可能为 ['Temporary', ''] 中一个的问题, 改为若 __Path_Toml 初始为 '' 则进入 Temporary 状态.
+        修复 ConfigEditor 中 Save_Toml 在判断 ConfigEditor 处于 Temporary 状态却仍进行保存行为的错误.
 
         为 LogManager 添加注释.
         为 ConfigEditor 添加注释.

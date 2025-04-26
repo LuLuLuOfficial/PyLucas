@@ -1,15 +1,16 @@
 from __future__ import annotations
 import tomllib, tomli_w
+from typing import Self
 
 class ConfigEditor():
     """ConfigEditor Only Support <TOML> For Now.
     """
-    def __init__(self, Path_Toml: str, Data_Toml: dict = {}):
+    def __init__(self, Path_Toml: str = '', Data_Toml: dict = {}):
         '''
-        Path_Toml: str = 'Temporary' | 'Any Exists Path'
+        Path_Toml: str = '' | 'Any Exists Path'
         Data_Toml: dict = {...}
         '''
-        self.__Path_Toml: str = ''
+        self.__Path_Toml: str = Path_Toml
         self.__Data_Toml: dict = {}
         self.Temporary: bool = False
 
@@ -18,7 +19,7 @@ class ConfigEditor():
     def Initialize(self, Path_Toml: str, Data_Toml: dict):
         from os.path import exists
         match Path_Toml:
-            case 'Temporary':
+            case '':
                 self.Temporary = True
                 self.Set_Data_Toml(Data_Toml=Data_Toml)
             case _:
@@ -39,7 +40,8 @@ class ConfigEditor():
         if FiledPath and self.Temporary:
             self.Temporary = False
             self.__Path_Toml = FiledPath
-        if self.Temporary: return
+        else:
+            return
         with open(file=self.__Path_Toml, mode='wb') as File_Toml:
             tomli_w.dump(self.__Data_Toml, File_Toml)
             File_Toml.close()
@@ -79,21 +81,30 @@ class ConfigEditor():
     def Get_Keys(self, Key_Locate: str = '') -> tuple:
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
-        if Key_Locate[0]:
-            for Temp_Key in Key_Locate:
-                if type(Temp_Data) != dict: raise KeyError(f'{Key_Locate} -> {Temp_Key}')
-                Temp_Data = Temp_Data[Temp_Key]
+        Keys: tuple = ()
+        if Key_Locate == ['']: Key_Locate = []
+        for Temp_Key in Key_Locate:
+            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
+            Temp_Data = Temp_Data[Temp_Key]
+        if isinstance(Temp_Data, dict): Keys = tuple(Temp_Data.keys())
+        else: Keys = ()
 
-        return tuple(Temp_Data.keys())
+        return Keys
 
     def Set_Key(self, Key_Locate: str, New_Key: str) -> None:
+        """This function has not been actually implemented.
+
+        Args:
+            Key_Locate (str): _description_
+            New_Key (str): _description_
+        """
         pass
 
     def POP_Key(self, Key_Locate: str):
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
         for Temp_Key in Key_Locate[:-1]:
-            if type(Temp_Data) != dict: raise KeyError(f'{Key_Locate} -> {Temp_Key}')
+            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
             Temp_Data = Temp_Data[Temp_Key]
         Temp_Data.pop(Key_Locate[-1])
         self.Save_Toml()
@@ -106,13 +117,10 @@ class ConfigEditor():
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
         for Temp_Key in Key_Locate:
-            if type(Temp_Data) != dict: raise KeyError(f'{Key_Locate} -> {Temp_Key}')
+            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
             Temp_Data = Temp_Data[Temp_Key]
-        match type(Temp_Data).__name__:
-            case 'dict':
-                Temp_Data: ConfigEditor = ConfigEditor(Path_Toml='Temporary', Data_Toml=Temp_Data)
-            case _:
-                pass
+        if isinstance(Temp_Data, dict): Temp_Data: ConfigEditor = ConfigEditor(Data_Toml=Temp_Data)
+        else: pass
         return Temp_Data
 
     def Set_Value(self, Key_Locate: str, Value: any) -> None:
@@ -125,7 +133,7 @@ class ConfigEditor():
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
         for Temp_Key in Key_Locate[:-1]:
-            if type(Temp_Data) == dict:
+            if isinstance(Temp_Data, dict):
                 if Temp_Key in Temp_Data:
                     Temp_Data = Temp_Data[Temp_Key]
                 else:
@@ -146,7 +154,7 @@ class ConfigEditor():
         Key_Locate: list = Key_Locate.split('.')
         Temp_Data: any = self.__Data_Toml
         for Temp_Key in Key_Locate:
-            if type(Temp_Data) != dict: raise KeyError(f'{Key_Locate} -> {Temp_Key}')
+            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
             Temp_Data = Temp_Data[Temp_Key]
         match type(Temp_Data).__name__:
             case 'int':
