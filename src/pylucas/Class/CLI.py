@@ -8,6 +8,7 @@ from re import compile
 from typing import Type
 from inspect import getmembers, ismethod
 from time import sleep as LoopPause
+from copy import deepcopy
 
 from pylucas.Function import ASCII_Art
 from pylucas import ConfigEditor
@@ -64,8 +65,7 @@ def VerifyCommand(Commands: ConfigEditor, Command: list, CaseSensitive: bool):
         CaseSensitive (bool): _是否区分大小写._
 
     Returns:
-        tuple[list]: _(Command -> 标准格式用户指令, CommandRule -> 指令格式模板)_
-        bool: _校验失败返回 False._
+        (list[str] | bool[False]): _[变量_1, 变量_2, ...], 校验失败返回 False_
     """
     def CaseCorrection(Commands: ConfigEditor, Command: list, CaseSensitive: bool):
         """对 Command 进行大小写矫正, 在关键字相同(不区分大小写)的情况下, 将 Command 格式化为标准关键字.
@@ -96,8 +96,11 @@ def VerifyCommand(Commands: ConfigEditor, Command: list, CaseSensitive: bool):
                     break
                 Key_Locate = Command[0] if Index == 0 else f'{Key_Locate}.{Command[Index]}'
                 KeyWords: tuple = Commands.Get_Keys(Key_Locate)
+            zRequired = []
             for Index, KeyWord in enumerate(Required):
-                if '(Optional)' in KeyWord: Required[Index] = Required[Index][:-10]
+                if '(Optional)' in KeyWord: zRequired.append(Required[Index][:-10])
+                else: zRequired.append(Required[Index])
+            Required = zRequired
             Required = DualCaseSet(Required)
             for Index, KeyWord in enumerate(Command[rsi:]):
                 if KeyWord[0] == '-':
@@ -184,7 +187,24 @@ def VerifyCommand(Commands: ConfigEditor, Command: list, CaseSensitive: bool):
             if not Elements_Rule[R]['optional']:
                 return False
             R += 1
-        if I == len(Elements_Input): return Command, CommandRule
+        if I != len(Elements_Input):
+            return False
+        args: list = [] # ['<Required_1>', '<Required_2>(Optional), -Flag_1, -Flag_2(Optional)']
+        Index_Command: int = 0
+        rsi: int = -1
+        for Index, KeyWord in enumerate(CommandRule):
+            if (KeyWord[0] in ['<', '-']) and (rsi==-1):
+                rsi = Index
+                Index_Command = Index
+            if rsi == -1: continue
+
+            if (not Index_Command > len(Command)-1) and (KeyWord[0] == Command[Index_Command][0]):
+                args.append(Command[Index_Command])
+                Index_Command += 1
+            elif '(Optional)' in KeyWord:
+                args.append('')
+            else: return False
+        return args
 
     return VerifyFormat(*CaseCorrection(Commands=Commands,
                                         Command=Command,
@@ -204,8 +224,8 @@ class CommandExecuter():
     def __GetMethods(self) -> DualCaseSet:
         zMethods = getmembers(self, predicate=ismethod)
         Methods: list = [zMethod[0] for zMethod in zMethods]
-        print(Methods)
-        Methods.remove('__init__'); Methods.remove('Initialize')
+        for Name in ['Initialize', '_CommandExecuter__CommandLanMix', '_CommandExecuter__GetMethods', '__init__']:
+            Methods.remove(Name)
         return DualCaseSet(Methods)
     
     def __CommandLanMix(self,
@@ -245,13 +265,12 @@ class CommandExecuter():
         exit()
 
     def Example(self, Command: list[str]) -> None:
-        Result: tuple | bool = VerifyCommand(Commands=self.Commands,
-                        Command=Command,
-                        CaseSensitive=self.CaseSensitive)
-        if not Result: ConsoleLog(f'Error Command -> {Command}'); return
-        Command, CommandRule = Result[0], Result[1]
-        # 经过 VerifyCommand 校验后的 Command 格式绝对正确, 接下来就是校验其内容是否合法.
-        print(Command, CommandRule)
+        Result: list | bool = VerifyCommand(Commands=self.Commands,
+                                            Command=Command,
+                                            CaseSensitive=self.CaseSensitive)
+        if not Result: ConsoleLog(f'Error Command.'); return
+        # 经过 VerifyCommand 校验后得到的 Result 是包含变量的列表, 只要按对应位置调用就行了.
+        print(Result)
 
 class CLI():
     """命令行的核心类, 用于创建命令等待循环, 指令处理部分交给 BasicCommandHandler 的子类.
@@ -366,15 +385,15 @@ def ExtractLang(Path_Toml: str, Path_Lang: str):
     Commands_Lang.Save_Toml(FiledPath=Path_Lang)
 
 if __name__ == '__main__':
-    # Commands: ConfigEditor = ConfigEditor(Path_Toml=r'D:\Warehouse\Project\Program\Python\Lucas-Code-Test-Plot\src\lctp\CLI\Commands.toml')
-    # Command: list = 'Project Create <Project_ID> <Project_Name> <Mods_Location> <GameVersion> <ModLoader>'.split(' ')
+    # Commands: ConfigEditor = ConfigEditor(Path_Toml=r'test\Class\CLI\Commands.toml')
+    # Command: list = 'Example <Required_1> -Flag_1'.split(' ')
     # CaseSensitive = False
-    # --------------------------------------------------
     # print(VerifyCommand(Commands=Commands,
     #                     Command=Command,
     #                     CaseSensitive=CaseSensitive))
-    # _CLI_ = CLI(PathCommands=r'D:\Warehouse\Project\Program\Python\Lucas-Code-Test-Plot\src\lctp\CLI\Commands.toml',
-    #             PathLanguage=r'D:\Warehouse\Project\Program\Python\MineCraft-Mod-Vault-Manager\Data\Lang\CLI\zh_cn\Commands.toml',
+    # --------------------------------------------------
+    # _CLI_ = CLI(PathCommands=r'test\Class\CLI\Commands.toml',
+    #             PathLanguage=r'test\Class\CLI\zh_cn.toml',
     #             CLIName='Lucas CLI',
     #             User='Lucas',
     #             CE=CommandExecuter,
