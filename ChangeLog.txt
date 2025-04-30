@@ -36,3 +36,7 @@ Version:
 
         为 LogManager 添加注释.
         为 ConfigEditor 添加注释.
+
+        为 ConfigEditor 添加方法 Get_NestedPaths, 该方法可以通过递归获取所有最底层非字典值的键路径.
+
+        添加类型 CLI, DualCaseSet, 分别用于 建立 CLI 交互界面, 进行简便的大小写字符串对比校验.

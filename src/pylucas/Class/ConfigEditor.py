@@ -174,3 +174,18 @@ class ConfigEditor():
                 raise TypeError(f'\'{type(Temp_Data).__name__}\' object UnSupport to AddElement')
 
         self.Save_Toml()
+
+    # Pair --------------------------------------------------
+
+    def Get_NestedPaths(self, Key_Locate: str = ''):
+        NestedPaths: list = []
+        def DepthRecursion(Key_Locate: str):
+            Keys: list = self.Get_Keys(Key_Locate=Key_Locate)
+            for Key in Keys:
+                if Key_Locate == '': SubKey_Locate: str = f'{Key}'
+                else: SubKey_Locate: str = f'{Key_Locate}.{Key}'
+                SubKeys = self.Get_Keys(Key_Locate=SubKey_Locate)
+                if SubKeys: DepthRecursion(Key_Locate=SubKey_Locate)
+                else: NestedPaths.append([Key_Locate, Key])
+        DepthRecursion(Key_Locate)
+        return NestedPaths
