@@ -1,3 +1,3 @@
-from pylucas.Function.Function import Author_Lucas, ASCII_Art, GetTimeStamp, Get_CurrentFrame_Info
+from pylucas.Function.Function import ASCII_Art, GetTimeStamp, GetCurrentFrameInfo
 
-__all__ = ['Author_Lucas', 'ASCII_Art', 'GetTimeStamp', 'Get_CurrentFrame_Info']
+__all__ = ['ASCII_Art', 'GetTimeStamp', 'GetCurrentFrameInfo']

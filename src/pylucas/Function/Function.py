@@ -36,7 +36,7 @@ def GetTimeStamp(Split: str = '-') -> str:
     Time_Formatted: str = strftime(f'%Y{Split}%m{Split}%d %H{Split}%M{Split}%S', Time_Local)
     return Time_Formatted
 
-def GetCurrentFrame_Info() -> tuple[str]:  # 获取当前帧信息
+def GetCurrentFrameInfo() -> tuple[str]:  # 获取当前帧信息
     """
     Gets the current code execution location
 
