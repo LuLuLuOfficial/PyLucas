@@ -25,7 +25,7 @@ Version:
     1.1.3
         为 LogManager 中 LogOutput 的参数 Level 添加候选.
         修复关于 from pylucas.Function import ... 无法导入的问题(通过在Function文件夹内新建__init__.py).
-    1.2.0
+    2.0.0
         修复 Function 中 ASCII_Art 缺少返回值 -> LineCount 的问题.
         修复 Function 中 ASCII_Art 默认字体被硬编码的问题.
         修复 LogManager 中 Author 的 ASCII Art 无法自定义的问题.
@@ -39,4 +39,18 @@ Version:
 
         为 ConfigEditor 添加方法 Get_NestedPaths, 该方法可以通过递归获取所有最底层非字典值的键路径.
 
-        添加类型 CLI, DualCaseSet, 分别用于 建立 CLI 交互界面, 进行简便的大小写字符串对比校验.
+        在不影响使用方式的前提下重构部分 LogManager, 并添加了方法 Log 用于替代 LogOutput, 添加了 LogManager 全局 DoPrint(即将变更为 LogConsole) 变量.
+
+        为 ConfigEditor 添加方法 toDict 用以取代 Get_Data_Toml, 实现层面无区别.
+        将 Set_Data_Toml 标记为将被移除.
+        修复 ConfigEditor 在 Initialize 中没有给 self.__Path_Toml 赋值导致无法正常读取和保存的 BUG.
+        修复 ConfigEditor 在 Save_Toml 因错误的 return 导致的与保存相关的代码无效的 BUG.
+
+        修改 ConfigEditor 中对内存态的 ConfigEditor 实例的实现方式.
+        对 ConfigEditor 的接口进行破坏性更新, 不再与旧版本兼容.
+        恢复 ConfigEditor 对 json 文件的读写支持.
+        将 ConfigEditor 的支持扩展简化为增加继承 ConfigEditor_Basic 类后重写 Load 与 Save 方法.
+        移除 ConfigEditor 中的部分方法.
+        大量修改 ConfigEditor 的方法名与属性名.
+
+        从 Function 中移除函数 Author_Lucas.

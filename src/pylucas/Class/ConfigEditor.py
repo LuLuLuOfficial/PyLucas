@@ -1,162 +1,179 @@
+import json, tomllib, tomli_w
+from typing import Literal
+from copy import deepcopy
+from os.path import exists
 from __future__ import annotations
-import tomllib, tomli_w
-from typing import Self
 
 class ConfigEditor():
-    """ConfigEditor Only Support <TOML> For Now.
+    """_Make Config Great Again._
     """
-    def __init__(self, Path_Toml: str = '', Data_Toml: dict = {}):
-        '''
-        Path_Toml: str = '' | 'Any Exists Path'
-        Data_Toml: dict = {...}
-        '''
-        self.__Path_Toml: str = Path_Toml
-        self.__Data_Toml: dict = {}
-        self.Temporary: bool = False
+    def __init__(self,
+                 File: Literal['<Temporary>'],
+                 Data: dict = {},
+                 FileMode: Literal['toml', 'json'] = 'toml'):
+        """_Make Config Great Again._
 
-        self.Initialize(Path_Toml=Path_Toml, Data_Toml=Data_Toml)
+        Args:
+            File (Literal['\<Temporary\>']): _description_
+            Data (dict, optional): _description_. Defaults to {}.
+            FileMode (Literal['toml', 'json'], optional): _description_. Defaults to 'toml'.
+        """
+        self.__Editor: ConfigEditor_Toml | ConfigEditor_Json
 
-    def Initialize(self, Path_Toml: str, Data_Toml: dict):
-        from os.path import exists
-        match Path_Toml:
-            case '':
-                self.Temporary = True
-                self.Set_Data_Toml(Data_Toml=Data_Toml)
-            case _:
-                match exists(self.__Path_Toml):
-                    case True:
-                        self.Load_Toml()
-                    case False:
-                        self.Save_Toml()
+        match FileMode:
+            case 'toml': self.__Editor = ConfigEditor_Toml(File=File, Data=Data)
+            case 'json': self.__Editor = ConfigEditor_Json(File=File, Data=Data)
+            case     _ : raise Exception('Target File Mode Not Support.')
+
+    def ToDict(self) -> dict:
+        return self.__Editor.ToDict()
+
+    def DataCover(self, Data: dict) -> None:
+        return self.__Editor.DataCover(Data=Data)
+
+    def GetKeys(self, KeyLocate: str = '') -> tuple:
+        return self.__Editor.GetKeys(KeyLocate=KeyLocate)
+
+    def POPKey(self, KeyLocate: str) -> None:
+        return self.__Editor.POPKey(KeyLocate=KeyLocate)
+
+    def GetValue(self, KeyLocate: str) -> ConfigEditor | any:
+        return self.__Editor.GetValue(KeyLocate=KeyLocate)
+
+    def SetValue(self, KeyLocate: str, Value: any):
+        return self.__Editor.SetValue(KeyLocate=KeyLocate, Value=Value)
+
+    def AddValue(self, KeyLocate: str, Value: any):
+        return self.__Editor.AddValue(KeyLocate=KeyLocate, Value=Value)
+
+    def GetNestedPaths(self) -> list:
+        return self.__Editor.GetNestedPaths()
+
+class ConfigEditor_Basic():
+    def __init__(self,
+                 File: Literal['<Temporary>'],
+                 Data: dict = {}):
+        self._Temporary: bool = True if File == '<Temporary>' else False
+        self._Flie: str = File
+        self._Data: dict = deepcopy(Data) if self._Temporary else {}
+
+        match self._Temporary:
+            case True:
+                return
+            case False:
+                if exists(File): self.Load()
+                else: self.Save(File)
+
+    def Initialize(self):
+        pass
+
+    def Load(self):
+        if self._Temporary: return
+
+    def Save(self, File: str = ''):
+        if File:
+            FileRoot: str = File[:File.rfind('\\')]
+            if not exists(path=FileRoot):
+                raise FileNotFoundError(rf"Path Root {FileRoot} not exists.")
+            self._Temporary = False
+            self._Flie = File
+        if not self._Flie and self._Temporary: return
 
     # Pair --------------------------------------------------
-    def Load_Toml(self) -> None:
-        if self.Temporary: return
-        with open(file=self.__Path_Toml, mode='rb') as File_Toml:
-            self.__Data_Toml = tomllib.load(File_Toml)
-            File_Toml.close()
+    """_下面的两个方法中的原变量和新变量不会存在任何引用关系._"""
+    @property
+    def ToDict(self) -> dict:
+        from copy import deepcopy
+        return deepcopy(self._Data)
 
-    def Save_Toml(self, FiledPath: str = '') -> None:
-        if FiledPath and self.Temporary:
-            self.Temporary = False
-            self.__Path_Toml = FiledPath
-        else:
-            return
-        with open(file=self.__Path_Toml, mode='wb') as File_Toml:
-            tomli_w.dump(self.__Data_Toml, File_Toml)
-            File_Toml.close()
+    def DataCover(self, Data: dict) -> None:
+        """_强制使用深拷贝覆写 self._Data, 不建议使用这个方法._
+
+        Args:
+            Data (dict): _description_
+        """
+        from copy import deepcopy
+        self._Data = deepcopy(Data)
+        self.Save()
 
     # Pair --------------------------------------------------
-    '''
-    下面的三个方法中的原变量和新变量不会存在任何引用关系.
-    '''
-    def Get_Data_Toml(self) -> dict:
-        from copy import deepcopy
-        return deepcopy(self.__Data_Toml)
 
-    def Set_Data_Toml(self, Data_Toml: dict) -> None:
-        '''
-        仅在 self.__Data_Toml 为空或任何 bool(self.__Data_Toml)!=True 情况下有效
-        不建议使用这个方法
-        '''
-        from copy import deepcopy
-        if self.__Data_Toml:
-            return
-        self.__Data_Toml = deepcopy(Data_Toml)
-        self.Save_Toml()
-
-    def OverWrite_Data(self, Data_Toml: dict):
-        '''
-        强制覆写 self.__Data_Toml
-        不建议使用这个方法
-        '''
-        from copy import deepcopy
-        self.__Data_Toml = deepcopy(Data_Toml)
-        self.Save_Toml()
-
-    # Pair --------------------------------------------------
-    '''
-    下面的三个方法中的原变量和新变量不会存在任何引用关系.
-    '''
-    def Get_Keys(self, Key_Locate: str = '') -> tuple:
-        Key_Locate: list = Key_Locate.split('.')
-        Temp_Data: any = self.__Data_Toml
+    def GetKeys(self, KeyLocate: str = '') -> tuple:
+        KeyLocate: list = KeyLocate.split('.')
+        TempData: any = self._Data
         Keys: tuple = ()
-        if Key_Locate == ['']: Key_Locate = []
-        for Temp_Key in Key_Locate:
-            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
-            Temp_Data = Temp_Data[Temp_Key]
-        if isinstance(Temp_Data, dict): Keys = tuple(Temp_Data.keys())
+        if KeyLocate == ['']: KeyLocate = []
+        for TempKey in KeyLocate:
+            if not isinstance(TempData, dict): raise KeyError(f'{KeyLocate} -> {TempKey}')
+            TempData = TempData[TempKey]
+        if isinstance(TempData, dict): Keys = tuple(TempData.keys())
         else: Keys = ()
 
         return Keys
 
-    def Set_Key(self, Key_Locate: str, New_Key: str) -> None:
-        """This function has not been actually implemented.
-
-        Args:
-            Key_Locate (str): _description_
-            New_Key (str): _description_
-        """
-        pass
-
-    def POP_Key(self, Key_Locate: str):
-        Key_Locate: list = Key_Locate.split('.')
-        Temp_Data: any = self.__Data_Toml
-        for Temp_Key in Key_Locate[:-1]:
-            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
-            Temp_Data = Temp_Data[Temp_Key]
-        Temp_Data.pop(Key_Locate[-1])
-        self.Save_Toml()
+    def POPKey(self, KeyLocate: str) -> None:
+        KeyLocate: list = KeyLocate.split('.')
+        TempData: any = self._Data
+        for TempKey in KeyLocate[:-1]:
+            if not isinstance(TempData, dict): raise KeyError(f'{KeyLocate} -> {TempKey}')
+            TempData = TempData[TempKey]
+        TempData.pop(KeyLocate[-1])
+        self.Save()
 
     # Pair --------------------------------------------------
-    '''
-    下面的三个方法中的原变量和新变量仍然存在引用关系.
-    '''
-    def Get_Value(self, Key_Locate: str) -> ConfigEditor | any:
-        Key_Locate: list = Key_Locate.split('.')
-        Temp_Data: any = self.__Data_Toml
-        for Temp_Key in Key_Locate:
-            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
-            Temp_Data = Temp_Data[Temp_Key]
-        if isinstance(Temp_Data, dict): Temp_Data: ConfigEditor = ConfigEditor(Data_Toml=Temp_Data)
+    """_下面的三个方法中的原变量和新变量不会存在任何引用关系._"""
+
+    def GetValue(self, KeyLocate: str) -> ConfigEditor | any:
+        KeyLocate: list = KeyLocate.split('.')
+        TempData: any = self._Data
+        for TempKey in KeyLocate:
+            if not isinstance(TempData, dict): raise KeyError(f'{KeyLocate} -> {TempKey}')
+            TempData = TempData[TempKey]
+        if isinstance(TempData, dict): TempData: ConfigEditor = ConfigEditor(Data_Toml=TempData)
         else: pass
-        return Temp_Data
+        return deepcopy(TempData)
 
-    def Set_Value(self, Key_Locate: str, Value: any) -> None:
-        '''
-        The key path indicated by Key_Locate in the Set_Value requirement may not exist in Data_Toml.
-        在 Set_Value 的要求中 Key_Locate 所指示的键路径可以不存在于 Data_Toml 中.
-        In the implementation of Set_Value, Set_Value will directly overwrite the Value into the Value of the key-value pair indicated by Key_Locate.
-        在 Set_Value 的实现中 Set_Value 会将 Value 直接覆盖到 Key_Locate 所指示的键值对的 Value 中.
-        '''
-        Key_Locate: list = Key_Locate.split('.')
-        Temp_Data: any = self.__Data_Toml
-        for Temp_Key in Key_Locate[:-1]:
-            if isinstance(Temp_Data, dict):
-                if Temp_Key in Temp_Data:
-                    Temp_Data = Temp_Data[Temp_Key]
+    def SetValue(self, KeyLocate: str, Value: any):
+        """_summary_
+
+        Args:
+            KeyLocate (str): _KeyLocate 所指示的键路径可以不存在于 self._Data 中._
+            Value (any): _description_
+
+        Raises:
+            TypeError: _description_
+        """
+        KeyLocate: list = KeyLocate.split('.')
+        TempData: any = self._Data
+        for TempKey in KeyLocate[:-1]:
+            if isinstance(TempData, dict):
+                if TempKey in TempData:
+                    TempData = TempData[TempKey]
                 else:
-                    Temp_Data.update({Temp_Key: {}})
-                    Temp_Data = Temp_Data[Temp_Key]
+                    TempData.update({TempKey: {}})
+                    TempData = TempData[TempKey]
             else:
-                raise TypeError(f'Temp_Data: {type(Temp_Data)} = {Temp_Data}')
-        Temp_Data.update({Key_Locate[-1]: Value})
-        self.Save_Toml()
+                raise TypeError(f'TempData: {type(TempData)} = {TempData}')
+        TempData.update({KeyLocate[-1]: deepcopy(Value)})
+        self.Save()
 
-    def Add_Value(self, Key_Locate: str, Value: any) -> None:
-        '''
-        The key path indicated by Key_Locate in the requirements of Add_Value must exist in Data_Toml.
-        在 Add_Value 的要求中 Key_Locate 所指示的键路径必须存在于 Data_Toml 中.
-        In the implementation of Add_Value Add_Value only adds Value to the Value of the key-value pair indicated by Key_Locate.
-        在 Add_Value 的实现中 Add_Value 仅会将 Value 添加到 Key_Locate 所指示的键值对的 Value 中.
-        '''
-        Key_Locate: list = Key_Locate.split('.')
-        Temp_Data: any = self.__Data_Toml
-        for Temp_Key in Key_Locate:
-            if not isinstance(Temp_Data, dict): raise KeyError(f'{Key_Locate} -> {Temp_Key}')
-            Temp_Data = Temp_Data[Temp_Key]
-        match type(Temp_Data).__name__:
+    def AddValue(self, KeyLocate: str, Value: any):
+        """_summary_
+
+        Args:
+            KeyLocate (str): _KeyLocate 所指示的键路径必须存在于 self._Data 中._
+            Value (any): _description_
+
+        Raises:
+            KeyError: _KeyLocate 所指示的键路径不存在于 self.__Data中._
+            TypeError: _\'UnSupport Type\' object Unable to Add Element._
+        """
+        KeyLocate: list = KeyLocate.split('.')
+        TempData: any = self._Data
+        for TempKey in KeyLocate:
+            if not isinstance(TempData, dict): raise KeyError(f'{KeyLocate} -> {TempKey}')
+            TempData = TempData[TempKey]
+        match type(TempData).__name__:
             case 'int':
                 raise TypeError('\'int\' object Unable to Add Element')
             case 'float':
@@ -166,26 +183,50 @@ class ConfigEditor():
             case 'tuple':
                 raise TypeError('\'tuple\' object Unable to Add Element')
             case 'list':
-                Temp_Data.append(Value)
+                TempData.append(deepcopy(Value))
             case 'dict':
                 if type(Value) != dict: raise TypeError(f'\'dict\' object Unable to Add a Element of {type(Value).__name__}')
-                Temp_Data.update(Value)
+                TempData.update(deepcopy(Value))
             case _:
-                raise TypeError(f'\'{type(Temp_Data).__name__}\' object UnSupport to AddElement')
+                raise TypeError(f'\'{type(TempData).__name__}\' object UnSupport to AddElement')
 
-        self.Save_Toml()
+        self.Save()
 
-    # Pair --------------------------------------------------
-
-    def Get_NestedPaths(self, Key_Locate: str = ''):
+    def GetNestedPaths(self, KeyLocate: str = '') -> list:
         NestedPaths: list = []
-        def DepthRecursion(Key_Locate: str):
-            Keys: list = self.Get_Keys(Key_Locate=Key_Locate)
+        def DepthRecursion(KeyLocate: str):
+            Keys: list = self.GetKeys(KeyLocate=KeyLocate)
             for Key in Keys:
-                if Key_Locate == '': SubKey_Locate: str = f'{Key}'
-                else: SubKey_Locate: str = f'{Key_Locate}.{Key}'
-                SubKeys = self.Get_Keys(Key_Locate=SubKey_Locate)
-                if SubKeys: DepthRecursion(Key_Locate=SubKey_Locate)
-                else: NestedPaths.append([Key_Locate, Key])
-        DepthRecursion(Key_Locate)
+                if KeyLocate == '': KeyLocate_Sub: str = f'{Key}'
+                else: KeyLocate_Sub: str = f'{KeyLocate}.{Key}'
+                SubKeys = self.GetKeys(KeyLocate=KeyLocate_Sub)
+                if SubKeys: DepthRecursion(KeyLocate=KeyLocate_Sub)
+                else: NestedPaths.append([KeyLocate, Key])
+        DepthRecursion(KeyLocate)
         return NestedPaths
+
+class ConfigEditor_Json(ConfigEditor_Basic):
+    def Load(self) -> None:
+        super().Load()
+        with open(file=self._Flie, mode='r', encoding='utf-8') as File:
+            self._Data = json.load(File)
+            File.close()
+
+    def Save(self, File: str = '') -> None:
+        super().Save(File)
+        with open(file=self._Flie, mode='w', encoding='utf-8') as File:
+            json.dump(self._Data, File, ensure_ascii=False, indent=4)
+            File.close()
+
+class ConfigEditor_Toml(ConfigEditor_Basic):
+    def Load(self) -> None:
+        super().Load()
+        with open(file=self._Flie, mode='rb') as File:
+            self._Data = tomllib.load(File)
+            File.close()
+
+    def Save(self, File: str = '') -> None:
+        super().Save(File)
+        with open(file=self._Flie, mode='wb') as File:
+            tomli_w.dump(self._Data, File)
+            File.close()

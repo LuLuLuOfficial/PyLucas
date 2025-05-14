@@ -1,22 +1,5 @@
 from typing import Literal
 
-def Author_Lucas(Author: str = 'Nuhil Lucas') -> str:
-    """
-    Generate Ascii Art Characters, This Func Mark with Deprecated, Recommended to use -> ASCII_Art.
-
-    Args:
-        Author (str, optional): _description_. Defaults to 'Nuhil Lucas'.
-
-    Returns:
-        str: _description_. Ascii Art Characters
-    """
-    from art import text2art
-    ASCIIArt_Str: str = text2art(text=Author, font='starwars')
-    SplitLine: str = '-'*(ASCIIArt_Str.find('\n')) + '\n'
-    ASCIIArt_Str: str = SplitLine + ASCIIArt_Str + SplitLine
-    LineCount: int = ASCIIArt_Str.count('\n')
-    return ASCIIArt_Str, LineCount
-
 def ASCII_Art(Text: str,
               Font: Literal['univers', 'tarty8', 'tarty7', 'tarty1', 'block'] = 'starwars',
               AddSplit: bool = False) -> str:
@@ -53,7 +36,7 @@ def GetTimeStamp(Split: str = '-') -> str:
     Time_Formatted: str = strftime(f'%Y{Split}%m{Split}%d %H{Split}%M{Split}%S', Time_Local)
     return Time_Formatted
 
-def Get_CurrentFrame_Info() -> tuple[str]:  # 获取当前帧信息
+def GetCurrentFrame_Info() -> tuple[str]:  # 获取当前帧信息
     """
     Gets the current code execution location
 
