@@ -58,3 +58,5 @@ Version:
         为 result 添加方法 append 与 update, 并将属性 args 类型改为 list.
 
         更改 ConfigEditor 的结构而不改变其应用层面的实现.
+        移除 LogManager 中的 SetLogLimit, SetMessageLB, LogOutput 方法.
+        移除 LogManager 中 __init__ 内关于 LogLimit 部分的检查.

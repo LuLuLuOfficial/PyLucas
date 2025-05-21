@@ -9,7 +9,7 @@ class LogManager():
     def __init__(self,
                  Author: str = None,
                  LogConsole: bool = True,
-                 LogLimit: list[bool | int] | int = 10,
+                 LogLimit: int = 10,
                  MsgLineBrk: bool = False,
                  OutPutPath_Root: str = r'.\Log') -> None:
         """_summary_
@@ -23,17 +23,11 @@ class LogManager():
         
         self.Author: str = Author
         self.LogConsole: bool = LogConsole
-        self.LogLimit: list[bool | int] | int = LogLimit
-
-        if type(LogLimit).__name__ == 'list': # This Patr Will Be Discard In Next Major Version.
-            if LogLimit[0] == False: self.LogLimit = -1
-            else: self.LogLimit = LogLimit[1]
+        self.LogLimit: int = LogLimit
 
         self.MsgLineBrk: bool = MsgLineBrk
         self.OutPutPath_Root: str = OutPutPath_Root
         self.OutPutPath_File: str = rf'{OutPutPath_Root}\{GetTimeStamp()}.log'
-
-        
 
         self.Initialize()
 
@@ -57,7 +51,6 @@ class LogManager():
 
     def CheckFileLimit(self):
         if self.LogLimit <= 0: return
-        
         Path = _Path(self.OutPutPath_Root)
         Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.log']
         if not Files: return
@@ -66,37 +59,6 @@ class LogManager():
             OldestFile.unlink()
             self.Log(LogMessage = f'Deleted Oldest LogFile -> {OldestFile}.')
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.log']
-
-    def SetLogLimit(self, Mode: bool, Limit: int = None): # This Func Will Be Discard In Next Major Version.
-        if Mode == False: self.LogLimit = -1
-        elif Limit: self.LogLimit = Limit
-
-    def SetMessageLB(self, Mode: bool): # This Func Will Be Discard In Next Major Version.
-        """This Func Will Be Discard In Next Major Version.
-
-        Args:
-            Mode (bool): _description_
-        """
-        if Mode: self.MsgLineBrk = True
-        else: self.MsgLineBrk = False
-
-    def LogOutput(self, # This Func Will Be Discard In Next Major Version.
-                  Module: str = None,
-                  Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
-                  LogMessage: str = 'Invalid Information',
-                  DoPrint: Literal[None, True, False] = None):
-        """This Func Will Be Discard In Next Major Version.
-
-        Args:
-            Module (str, optional): _Log Source._ Defaults By Auto Get.
-            Level (Literal[Error, Warn, Normal], optional): _Log Level._ Defaults to 'Normal'.
-            LogMessage (str, optional): _Log Output Message._ Defaults to 'Invalid Information'.
-            DoPrint (bool, optional): _Whether the Log is output in the console._ Defaults fallow to self.LogConsole.
-        """
-        self.Log(Module=Module,
-                 Level=Level,
-                 LogMessage=LogMessage,
-                 LogConsole=DoPrint)
 
     def Log(self,
             Module: str = None,
