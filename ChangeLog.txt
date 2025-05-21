@@ -60,3 +60,4 @@ Version:
         更改 ConfigEditor 的结构而不改变其应用层面的实现.
         移除 LogManager 中的 SetLogLimit, SetMessageLB, LogOutput 方法.
         移除 LogManager 中 __init__ 内关于 LogLimit 部分的检查.
+        移除 result 中 通过 () 对字典进行键索引获取值的方法, 改用 [] 同时接受 str | int 来匹配列表与字典的索引.

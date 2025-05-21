@@ -22,17 +22,6 @@ class result():
         if isinstance(Index, int): return self.args[Index]
         if isinstance(Index, str): return self.kwargs[Index]
 
-    def __call__(self, Key):
-        """_Planned to be abandoned._
-
-        Args:
-            Key (_type_): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        return self.kwargs[Key]
-
     def __repr__(self):
         if all((self.args, self.kwargs)) or not any((self.args, self.kwargs)):
             return str(self.args)+str(self.kwargs)
