@@ -54,3 +54,7 @@ Version:
         大量修改 ConfigEditor 的方法名与属性名.
 
         从 Function 中移除函数 Author_Lucas.
+
+        为 result 添加方法 append 与 update, 并将属性 args 类型改为 list.
+
+        更改 ConfigEditor 的结构而不改变其应用层面的实现.

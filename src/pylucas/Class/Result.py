@@ -4,16 +4,33 @@ class result():
                  *args: any,
                  **kwargs: any):
         self.state: bool = state
-        self.args: tuple = args
+        self.args: list = list(args)
         self.kwargs: dict = kwargs
 
     def __bool__(self):
         return self.state
     
-    def __getitem__(self, Index):
-        return self.args[Index]
+    def __getitem__(self, Index: int | str):
+        """_Used to obtain the contents of arrays and dictionaries._
+
+        Args:
+            Index (int | str): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        if isinstance(Index, int): return self.args[Index]
+        if isinstance(Index, str): return self.kwargs[Index]
 
     def __call__(self, Key):
+        """_Planned to be abandoned._
+
+        Args:
+            Key (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
         return self.kwargs[Key]
 
     def __repr__(self):
@@ -23,3 +40,14 @@ class result():
             return str(self.args)
         else:
             return str(self.kwargs)
+
+    def append(self, Element: any):
+        """_Append Element To result.args._
+
+        Args:
+            Element (any): _Any Type._
+        """
+        self.args.append(Element)
+
+    def update(self, KnV: dict):
+            self.kwargs.update(**KnV)
