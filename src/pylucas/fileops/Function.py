@@ -1,7 +1,7 @@
 from typing import Literal
 
 def ListFiles(Root: str,
-              Types: str | tuple = '',
+              Types: str | tuple = ('*',),
               Includes: str | tuple = '',
               Mode: Literal['Path', 'Name'] = 'Path') -> list[str]:
     from pathlib import Path
@@ -16,7 +16,6 @@ def ListFiles(Root: str,
     Returns:
         list: _description_
     """
-    Types = Types if Types else '*'
     Types: tuple = (Types,) if isinstance(Types, str) else Types
     Includes: tuple = (Includes,) if isinstance(Includes, str) else Includes
     FileRoot: Path = Path(Root)
