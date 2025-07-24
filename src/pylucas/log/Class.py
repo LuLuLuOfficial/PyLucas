@@ -22,7 +22,7 @@ class LogManager():
             LogLimit (int, optional): _Unlimited: LogLimit<0, Unsaved: LogLimit=0, Limited: LogLimit>0._ Defaults to 10.
             OutPutPath_Root (str, optional): _The root directory to save the log files._ Defaults to r'.\Log'.
         """
-        
+
         self.Author: str = Author
         self.LogConsole: bool = LogConsole
         self.LogLimit: int = LogLimit
@@ -35,9 +35,9 @@ class LogManager():
         self.CheckFileLimit()
 
     def __call__(self,
-                 Module: str = None,
-                 Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
                  LogMessage: str = 'Invalid Information',
+                 Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
+                 Module: str = None,
                  LogConsole: Literal[None, True, False] = None):
         """_summary_
 
@@ -47,7 +47,7 @@ class LogManager():
             LogMessage (str, optional): _Log Output Message._ Defaults to 'Invalid Information'.
             LogConsole (bool, optional): _Whether the Log is output in the console._ Defaults is -1 mean fallow to self.LogConsole.
         """
-        self.Log(Module=Module, Level=Level, LogMessage=LogMessage, LogConsole=LogConsole)
+        self.Log(LogMessage=LogMessage, Level=Level, Module=Module, LogConsole=LogConsole)
 
     def CreateLogFile(self):
         if not self.LogLimit: return
@@ -75,9 +75,9 @@ class LogManager():
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.log']
 
     def Log(self,
-            Module: str = None,
-            Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
             LogMessage: str = 'Invalid Information',
+            Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
+            Module: str = None,
             LogConsole: Literal[None, True, False] = None):
         """_summary_
 

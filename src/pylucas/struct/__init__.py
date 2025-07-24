@@ -1,0 +1,1 @@
+from pylucas.struct.Class import result
