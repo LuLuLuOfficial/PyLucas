@@ -1,11 +1,8 @@
-from inspect import stack
 from os import mkdir, getcwd
 from os.path import exists
 from pathlib import Path as _Path
 from typing import Literal
-from re import compile
-from re import Pattern
-from traceback import format_stack
+from sys import _getframe
 
 from pylucas.function.Function import GetTimeStamp
 from pylucas.log.Function import ASCII_Art
@@ -96,10 +93,8 @@ class LogManager():
         TimeStamp: str = GetTimeStamp()
         Level: str = Level
         if Module is None:
-            if From__Call__:
-                Module = self.GetStack(-4)
-            else:
-                Module = self.GetStack(-3)
+            if From__Call__: Module = self.GetStack(3)
+            else: Module = self.GetStack(2)
         LogMessage: str = LogMessage[:-1] if LogMessage[-1] in ['.', '。'] else LogMessage
 
         Message: str = f'{TimeStamp} |-| [Level: <{Level}> | Module: <{Module}>]:\n  LogMessage: {LogMessage}.'
@@ -112,11 +107,18 @@ class LogManager():
             LogFile.close()
 
     def GetStack(self, Level: int | None):
-        if Level is None: return format_stack()
-        StackFrame: str = format_stack()[Level].strip().split(', ')
-        StackFrame[0] = StackFrame[0].replace('File ', '').replace('"', '').replace(self.WorkDir, '').replace('\\', '.')
-        # StackFrame[1] = StackFrame[1].replace('line ', '')
-        StackFrame[2] = StackFrame[2].replace('in <module>\n    ', '')
-
-        return f'{StackFrame[0]}::{StackFrame[1]}::{StackFrame[2]}'
+        Frame = _getframe(Level)
+        CurrentFile = Frame.f_code.co_filename.replace(self.WorkDir, '')
+        Modules = []
+        while Frame:
+            Name = Frame.f_code.co_name
+            if Name == '<module>': break
+            _Self = Frame.f_locals.get('self')
+            _Class = Frame.f_locals.get('cls')
+            if _Self or _Class:
+                class_name = (_Self.__class__.__name__ if _Self else _Class.__name__)
+                Name = f"{class_name}::{Name}"
+            Modules.append(Name)
+            Frame = Frame.f_back
+        return f"{CurrentFile}|{'.'.join(reversed(Modules))}"
 
