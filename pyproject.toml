@@ -10,19 +10,17 @@ readme = "README.md"
 requires-python = ">=3.13"
 version = "3.0.0"
 
+[project.optional-dependencies]
+all = ["tomli-w (>=1.2.0,<2.0.0)", "atr (>=1.0.1,<2.0.0)", "pandas (>=2.3.1,<3.0.0)"]
+fileops = ["tomli-w (>=1.2.0,<2.0.0)"]
+log = ["art (>=6.5,<7.0)"]
+rwxl = ["pandas (>=2.3.1,<3.0.0)"]
+
 [tool.poetry]
 packages = [{include = "pylucas", from = "src"}]
-
-[tool.poetry.extras]
-fileops = ["tomli_w"]
-log = ["art"]
-rexl = ["pandas"]
-
-[tool.poetry.group.dev.dependencies]
-art = "^6.5"
-tomli-w = "^1.2.0"
-pandas = "^2.3.1"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=2.0.0,<3.0.0"]
+
+# poetry add <package> --optional <group>
