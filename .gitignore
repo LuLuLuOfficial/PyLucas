@@ -2,7 +2,7 @@
 .VSCodeCounter/
 Backup
 dist/
-Log/*.txt
+Log/*.log
 tests/
 *.egg-info/
 
@@ -10,4 +10,4 @@ tests/
 
 __pycache__/
 
-Test/
+poetry.lock

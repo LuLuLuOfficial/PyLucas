@@ -1,8 +1,11 @@
 from inspect import stack
-from os import mkdir
+from os import mkdir, getcwd
 from os.path import exists
 from pathlib import Path as _Path
 from typing import Literal
+from re import compile
+from re import Pattern
+from traceback import format_stack
 
 from pylucas.function.Function import GetTimeStamp
 from pylucas.log.Function import ASCII_Art
@@ -20,16 +23,18 @@ class LogManager():
             Author (str, optional): _Print the author's name in the log using AsciiArt._ Defaults to None.
             LogConsole (bool, optional): _Used to set whether to output in the console._ Defaults to True.
             LogLimit (int, optional): _Unlimited: LogLimit<0, Unsaved: LogLimit=0, Limited: LogLimit>0._ Defaults to 10.
-            OutPutPath_Root (str, optional): _The root directory to save the log files._ Defaults to r'.\Log'.
+            OutPutPath_Root (str, optional): _The root directory to save the log files._ Defaults to r'.\\Log'.
         """
 
         self.Author: str = Author
         self.LogConsole: bool = LogConsole
         self.LogLimit: int = LogLimit
 
-        self.MsgLineBrk: bool = MsgLineBrk
+        self.MsgLineBrk: bool = MsgLineBrk # 标记为弃用
         self.OutPutPath_Root: str = OutPutPath_Root
         self.OutPutPath_File: str = rf'{OutPutPath_Root}\{GetTimeStamp()}.log'
+
+        self.WorkDir: str = getcwd() + '\\'
 
         self.CreateLogFile()
         self.CheckFileLimit()
@@ -47,7 +52,7 @@ class LogManager():
             LogMessage (str, optional): _Log Output Message._ Defaults to 'Invalid Information'.
             LogConsole (bool, optional): _Whether the Log is output in the console._ Defaults is -1 mean fallow to self.LogConsole.
         """
-        self.Log(LogMessage=LogMessage, Level=Level, Module=Module, LogConsole=LogConsole)
+        self.Log(LogMessage=LogMessage, Level=Level, Module=Module, LogConsole=LogConsole, From__Call__=True)
 
     def CreateLogFile(self):
         if not self.LogLimit: return
@@ -71,14 +76,15 @@ class LogManager():
         while len(Files) > self.LogLimit:
             OldestFile = min(Files, key=lambda f: f.stat().st_mtime)
             OldestFile.unlink()
-            self.Log(LogMessage = f'Deleted Oldest LogFile -> {OldestFile}.')
+            self.Log(LogMessage = f'Deleted Oldest LogFile -> {OldestFile}.', Module='LogManager.CheckFileLimit')
             Files = [f for f in Path.iterdir() if f.is_file() and f.suffix.lower() == '.log']
 
     def Log(self,
             LogMessage: str = 'Invalid Information',
             Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
             Module: str = None,
-            LogConsole: Literal[None, True, False] = None):
+            LogConsole: Literal[None, True, False] = None,
+            From__Call__: bool = False):
         """_summary_
 
         Args:
@@ -89,11 +95,14 @@ class LogManager():
         """
         TimeStamp: str = GetTimeStamp()
         Level: str = Level
-        Module = Module if Module else stack()[1][0].f_globals['__name__']
-        Indent: str = '\n\t' if self.MsgLineBrk else ' '
+        if Module is None:
+            if From__Call__:
+                Module = self.GetStack(-4)
+            else:
+                Module = self.GetStack(-3)
         LogMessage: str = LogMessage[:-1] if LogMessage[-1] in ['.', '。'] else LogMessage
 
-        Message: str = f'{TimeStamp} |-| [Level: <{Level}> | Module: <{Module}>]:{Indent}{LogMessage}.'
+        Message: str = f'{TimeStamp} |-| [Level: <{Level}> | Module: <{Module}>]:\n  LogMessage: {LogMessage}.'
 
         if (self.LogConsole if LogConsole == None else LogConsole): print(Message)
 
@@ -102,4 +111,12 @@ class LogManager():
             LogFile.write(f'{Message}\n')
             LogFile.close()
 
+    def GetStack(self, Level: int | None):
+        if Level is None: return format_stack()
+        StackFrame: str = format_stack()[Level].strip().split(', ')
+        StackFrame[0] = StackFrame[0].replace('File ', '').replace('"', '').replace(self.WorkDir, '').replace('\\', '.')
+        # StackFrame[1] = StackFrame[1].replace('line ', '')
+        StackFrame[2] = StackFrame[2].replace('in <module>\n    ', '')
+
+        return f'{StackFrame[0]}::{StackFrame[1]}::{StackFrame[2]}'
 
