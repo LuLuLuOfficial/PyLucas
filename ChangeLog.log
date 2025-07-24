@@ -61,3 +61,35 @@ Version:
         移除 LogManager 中的 SetLogLimit, SetMessageLB, LogOutput 方法.
         移除 LogManager 中 __init__ 内关于 LogLimit 部分的检查.
         移除 result 中 通过 () 对字典进行键索引获取值的方法, 改用 [] 同时接受 str | int 来匹配列表与字典的索引.
+    3.0.0
+        变更结构:
+            src
+            └─pylucas
+                ├─fileops
+                ├─function
+                ├─log
+                ├─rwxl
+                ├─struct
+                ├─_NetWork # 未实现的功能
+                └─_RPA # 未实现的功能
+        
+        修改实现:
+            fileops.ConfigEditor:
+                1. 移除基类 ConfigEditorSL, 在 ConfigEditor 中直接调用 ConfigEditorSL_Json, ConfigEditorSL_Toml 的方法.
+                2. 为 ConfigEditor 添加魔术方法 __getitem__, __setitem__ 允许使用 [] 运算符进行键索引.
+                3. 未修改已存在的对外接口.
+            fileops.Function:
+                1. 将原有 Function 中的部分涉及文件操作的函数移至此处, 包含 ListFiles, FilesCopyer, FilesClear.
+            function.Function:
+                1. 包含 GetTimeStamp, GetCurrentFrameInfo, lindex, rindex.
+            log.LogManager:
+                1. 为 LogManager 添加魔术方法 __call__, 允许使用 () 关键字直接调用 Log 方法.
+            log.Function:
+                1. 把原本在 Function 内的 ASCII_Art 函数移动到此处.
+            rwxl.Function:
+                1. 添加函数 ReadExcel.
+            struct.Struct:
+                1. 移动类 result 至此.
+        
+        添加可选依赖:
+            将所有依赖项修改为可选, 根据不同的子包在 pyproject 内添加可选依赖项.

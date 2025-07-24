@@ -1,9 +1,11 @@
-from os.path import exists
-from os import mkdir
-from pathlib import Path as _Path
 from inspect import stack
-from pylucas.Function.Function import ASCII_Art, GetTimeStamp
+from os import mkdir
+from os.path import exists
+from pathlib import Path as _Path
 from typing import Literal
+
+from pylucas.function.Function import GetTimeStamp
+from pylucas.log.Function import ASCII_Art
 
 class LogManager():
     def __init__(self,
@@ -29,12 +31,24 @@ class LogManager():
         self.OutPutPath_Root: str = OutPutPath_Root
         self.OutPutPath_File: str = rf'{OutPutPath_Root}\{GetTimeStamp()}.log'
 
-        self.Initialize()
-
-    def Initialize(self):
         self.CreateLogFile()
         self.CheckFileLimit()
-    
+
+    def __call__(self,
+                 Module: str = None,
+                 Level: Literal['Normal', 'Warn', 'Error'] = 'Normal',
+                 LogMessage: str = 'Invalid Information',
+                 LogConsole: Literal[None, True, False] = None):
+        """_summary_
+
+        Args:
+            Module (str, optional): _Log Source._ Defaults By Auto Get.
+            Level (Literal[Error, Warn, Normal], optional): _Log Level._ Defaults to 'Normal'.
+            LogMessage (str, optional): _Log Output Message._ Defaults to 'Invalid Information'.
+            LogConsole (bool, optional): _Whether the Log is output in the console._ Defaults is -1 mean fallow to self.LogConsole.
+        """
+        self.Log(Module=Module, Level=Level, LogMessage=LogMessage, LogConsole=LogConsole)
+
     def CreateLogFile(self):
         if not self.LogLimit: return
 
@@ -87,3 +101,5 @@ class LogManager():
         with open(file=self.OutPutPath_File, mode='a', encoding='utf-8') as LogFile:
             LogFile.write(f'{Message}\n')
             LogFile.close()
+
+

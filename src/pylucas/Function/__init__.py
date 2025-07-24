@@ -1,3 +1,1 @@
-from pylucas.Function.Function import ASCII_Art, GetTimeStamp, GetCurrentFrameInfo
-
-__all__ = ['ASCII_Art', 'GetTimeStamp', 'GetCurrentFrameInfo']
+from pylucas.function.Function import GetTimeStamp, GetCurrentFrameInfo, lindex, rindex

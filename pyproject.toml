@@ -1,22 +1,28 @@
 [project]
-name = "pylucas"
-version = "2.0.0"
-description = "Lucas' Functional Distribution, Which Integrates Some Commonly Used."
-license = { file = "LICENSE" }
 authors = [
-    {name = "LuLuLuOfficial",email = "xframilrainx@163.com"}
+  {name = "LuLuLuOfficial", email = "xframilrainx@163.com"},
 ]
+dependencies = []
+description = "Lucas' Functional Distribution, Which Integrates Some Commonly Used."
+license = {file = "LICENSE"}
+name = "pylucas"
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "tomli-w (>=1.2.0,<2.0.0)",
-    "art (>=6.5,<7.0)"
-]
+requires-python = ">=3.13"
+version = "3.0.0"
 
 [tool.poetry]
 packages = [{include = "pylucas", from = "src"}]
 
+[tool.poetry.extras]
+fileops = ["tomli_w"]
+log = ["art"]
+rexl = ["pandas"]
+
+[tool.poetry.group.dev.dependencies]
+art = "^6.5"
+tomli-w = "^1.2.0"
+pandas = "^2.3.1"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -2,7 +2,7 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
-cd /d "%~dp0..\..\.."
+cd ..\..\
 echo Go to the project root directory %cd%
 echo.
 
